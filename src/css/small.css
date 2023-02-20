@@ -1,0 +1,156 @@
+body {
+    background-color: black;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Amatic SC', cursive;
+    color: green;
+}
+
+#form {
+    width: 580px;
+    height: 80px;
+    padding: 20px;
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+#searchInput {
+    width: 200px;
+}
+
+searchType {
+    font-size: 30px;
+}
+
+
+.results-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 3px green;
+    margin-top: 20px;
+    color: black;
+}
+
+.result {
+    margin-bottom: 20px;
+}
+
+.result-header {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.result-subheader {
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+}
+
+.result-text {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+#main-header img {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    display: block;
+
+}
+
+#main-header nav {
+    display: flex;
+}
+
+#main-header nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#main-header nav li {
+    margin-left: 1rem;
+}
+
+#main-header nav a {
+    text-decoration: none;
+    color: black;
+}
+
+#main-footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+#main-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#main-footer p {
+    margin: 0;
+}
+
+#main-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#main-footer li a {
+    color: #fff;
+    margin-right: 10px;
+}
+
+#pagination-container {
+    display: none;
+}
+
+#main-nav {
+    background-color: #00FF00;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+#main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+#main-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+label,
+select,
+input,
+button {
+    height: 40px;
+    font-size: 20px;
+}

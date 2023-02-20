@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Music Discovery</title>
+  <link rel="stylesheet" href="src/css/small.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Russo+One&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <header id="main-header"></header>
+  <main>
+    <form id="form">
+      <label for="search-input">Enter artist name:</label>
+      <input type="text" id="search-input" name="search-input">
+      <button type="submit" id="searchButton">Search</button>
+    </form>
+    <div id="results" class="no-border"></div>
+  </main>
+  <footer id="main-footer"></footer>
+  <script src="./src/js/index.mjs" type="module"></script>
+  <!-- <script>
+    async function renderHeaderFooter() {
+      const headerTemplate = await fetch("/src/partials/header.html").then(response => response.text());
+      const footerTemplate = await fetch("/src/partials/footer.html").then(response => response.text());
+      document.querySelector("#main-header").innerHTML = headerTemplate;
+      document.querySelector("#main-footer").innerHTML = footerTemplate;
+    }
+    renderHeaderFooter();
+
+    const form = document.querySelector("form");
+    const searchInput = document.getElementById("search-input");
+    const resultsDiv = document.getElementById("results");
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "3e92ace5fbmsh6053770406c5582p1f94c5jsnf9a575f449b9",
+        "X-RapidAPI-Host": "spotify23.p.rapidapi.com"
+      }
+    };
+    const searchButton = document.getElementById("searchButton");
+    const resultsContainer = document.getElementById("results");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const searchTerm = searchInput.value;
+      fetch(`https://spotify23.p.rapidapi.com/search/?q=${searchTerm}&type=multi&offset=0&limit=10&numberOfTopResults=5`, options)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          const artistName = data.artists.items[0].data.profile.name;
+          const imageUrl = data.artists.items[0].data.visuals.avatarImage.sources[1].url;
+
+          const artistNameElement = document.createElement("p");
+          artistNameElement.innerText = `Artist Name: ${artistName}`;
+          artistNameElement.classList.add("artist-name");
+
+          const artistImageElement = document.createElement("img");
+          artistImageElement.src = imageUrl;
+          artistImageElement.classList.add("artist-image");
+
+          // Add the artist name and image elements to the results div
+          resultsDiv.innerHTML = "";
+          resultsDiv.appendChild(artistNameElement);
+          resultsDiv.appendChild(artistImageElement);
+
+          // Add the radio buttons to the results div
+          const radioForm = document.createElement("form");
+          radioForm.innerHTML = `Is this the right artist?
+        <div>
+          <label for="yes">Yes</label>
+          <input type="radio" name="correct-artist" value="yes" id="yes">
+        </div>
+        <div>
+          <label for="no">No</label>
+          <input type="radio" name="correct-artist" value="no" id="no">
+        </div>
+      `;
+          radioForm.classList.add("radio-form");
+
+          resultsDiv.appendChild(radioForm);
+          resultsContainer.classList.remove("no-border");
+        })
+        .catch(error => {
+          console.error(error);
+          resultsDiv.innerHTML = "<p>An error occurred. Please try again later.</p>";
+        });
+    });
+
+  </script> -->
+</body>
+
+</html>
