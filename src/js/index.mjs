@@ -1,6 +1,6 @@
-import { displayResults } from "./display.mjs";
-import { fetchData } from "./fetch.mjs";
-import { renderHeaderFooter } from "./utils.mjs";
+import { displayResults } from "../display.mjs";
+import { fetchData } from "../fetch.mjs";
+import { renderHeaderFooter } from "../js/utils.mjs";
 
 renderHeaderFooter();
 const form = document.querySelector("form");
