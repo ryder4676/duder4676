@@ -5,7 +5,7 @@
   <title>Music Discovery</title>
   <link rel="stylesheet" href="src/css/small.css">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Russo+One&display=swap" rel="stylesheet">
-  <script src="src/js/index.mjs" type="module"></script>
+  <!-- <script src="src/js/index.mjs" type="module"></script> -->
   <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
     img-src https://*; child-src 'none'; script-src 'self'"> -->
 
@@ -24,7 +24,7 @@
   </main>
   <footer id="main-footer"></footer>
 
-  <!-- <script>
+  <script>
     async function renderHeaderFooter() {
       const headerTemplate = await fetch("/src/partials/header.html").then(response => response.text());
       const footerTemplate = await fetch("/src/partials/footer.html").then(response => response.text());
@@ -46,10 +46,11 @@
     const searchButton = document.getElementById("searchButton");
     const resultsContainer = document.getElementById("results");
 
+
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const searchTerm = searchInput.value;
-      fetch(`https://spotify23.p.rapidapi.com/search/?q=${searchTerm}&type=multi&offset=0&limit=10&numberOfTopResults=5`, options)
+      fetch(`https://spotify23.p.rapidapi.com/search/?q=${searchTerm}&type=multi&offset=0&limit=20&numberOfTopResults=5`, options)
         .then(response => response.json())
         .then(data => {
           console.log(data);
@@ -69,7 +70,7 @@
           resultsDiv.appendChild(artistNameElement);
           resultsDiv.appendChild(artistImageElement);
 
-          // Add the radio buttons to the results div
+          // Add the radio buttons and button to the results div
           const radioForm = document.createElement("form");
           radioForm.innerHTML = `Is this the right artist?
         <div>
@@ -83,16 +84,68 @@
       `;
           radioForm.classList.add("radio-form");
 
+          const button = document.createElement("button");
+          button.innerText = "Find similar music";
+          button.classList.add("search-button");
+
           resultsDiv.appendChild(radioForm);
+          resultsDiv.appendChild(button);
+
           resultsContainer.classList.remove("no-border");
+
+          // Add event listener to button to search for similar music
+          button.addEventListener("click", () => {
+            const correctArtist = document.querySelector('input[name="correct-artist"]:checked').value;
+            if (correctArtist === "yes") {
+              const similarArtists = data.artists.items.filter(item => item.data.profile.name.toLowerCase() !== searchTerm.toLowerCase());
+              console.log(similarArtists);
+              // Call function to display similar artists
+              displaySimilarArtists(similarArtists);
+            } else {
+              resultsDiv.innerHTML = "";
+              resultsDiv.classList.add("no-border");
+            }
+          });
         })
         .catch(error => {
           console.error(error);
           resultsDiv.innerHTML = "<p>An error occurred. Please try again later.</p>";
         });
     });
+    function createSimilarArtistElement(artist) {
+      const similarArtistElement = document.createElement('div');
+      similarArtistElement.classList.add('similar-artist');
+      const imageUrl = artist.data.visuals?.avatarImage?.sources?.[0]?.url; // use optional chaining to check if objects and properties exist
+      if (imageUrl) {
+        const imageElement = document.createElement('img');
+        imageElement.src = imageUrl;
+        imageElement.alt = artist.data.profile.name;
+        similarArtistElement.appendChild(imageElement);
+      }
+      const nameElement = document.createElement('p');
+      nameElement.textContent = artist.data.profile.name;
+      similarArtistElement.appendChild(nameElement);
+      return similarArtistElement;
+    }
 
-  </script> -->
+
+
+    function displaySimilarArtists(similarArtists) {
+      const similarArtistsList = document.createElement("ul");
+      similarArtistsList.classList.add("similar-artists-list");
+
+      similarArtists.forEach(artist => {
+        const similarArtistElement = createSimilarArtistElement(artist);
+        similarArtistsList.appendChild(similarArtistElement);
+      });
+
+      resultsDiv.innerHTML = "";
+      resultsDiv.appendChild(similarArtistsList);
+    }
+
+
+
+  </script>
 </body>
 
 </html>

@@ -154,3 +154,45 @@ button {
     height: 40px;
     font-size: 20px;
 }
+
+ul {
+    list-style: none;
+}
+
+.similar-artist {
+    width: 160px;
+    height: 160px;
+    margin: 20px;
+    /* increase margin to add space between artists */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.similar-artist img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.similar-artist p {
+    font-size: 16px;
+    /* adjust font size for the artist name */
+    margin-top: 10px;
+    /* add margin to separate name from image */
+}
+
+.similar-artists-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.similar-artists-list li {
+    width: 25%;
+    box-sizing: border-box;
+    padding: 10px;
+    height: fit-content;
+}
