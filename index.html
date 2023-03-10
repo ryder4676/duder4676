@@ -24,7 +24,7 @@
   </main>
   <footer id="main-footer"></footer>
 
-  <script>
+  <!-- <script>
     async function renderHeaderFooter() {
       const headerTemplate = await fetch("/src/partials/header.html").then(response => response.text());
       const footerTemplate = await fetch("/src/partials/footer.html").then(response => response.text());
@@ -33,26 +33,26 @@
     }
     renderHeaderFooter();
 
-    const form = document.querySelector("form");
+
+    const form = document.getElementById("form");
     const searchInput = document.getElementById("search-input");
     const resultsDiv = document.getElementById("results");
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "3e92ace5fbmsh6053770406c5582p1f94c5jsnf9a575f449b9",
-        "X-RapidAPI-Host": "spotify23.p.rapidapi.com"
-      }
-    };
     const searchButton = document.getElementById("searchButton");
     const resultsContainer = document.getElementById("results");
-
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const searchTerm = searchInput.value;
-      fetch(`https://spotify23.p.rapidapi.com/search/?q=${searchTerm}&type=multi&offset=0&limit=20&numberOfTopResults=5`, options)
+
+      fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`, {
+        headers: {
+          'Authorization': 'Bearer BQBx93l1uOn-3tGLyWLbUdpplt2xcIIxPdFPDpSrc-yZjz7hLP5kxs_giiY134TUahMzzzeswLBK-9BbFt6_zYw5JK4QIas6AoCfvJJmz9y5VLopvsGzMWG6M8KflLfEfcVX3tf78iA_GMS1LacIULnzCKn_8F7Ql6np3GTkclhBRNQREn3DD6SYB3-zSPMUmUG4OIJ7',
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => response.json())
         .then(data => {
+          const artistId = data.artists.items[0].id;
           console.log(data);
           const artistName = data.artists.items[0].data.profile.name;
           const imageUrl = data.artists.items[0].data.visuals.avatarImage.sources[1].url;
@@ -96,7 +96,16 @@
           // Add event listener to button to search for similar music
           button.addEventListener("click", () => {
             const correctArtist = document.querySelector('input[name="correct-artist"]:checked').value;
-            if (correctArtist === "yes") {
+            if (correctArtist === "yes") { return fetch(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, {
+            headers: {
+              'Authorization': 'Bearer BQBx93l1uOn-3tGLyWLbUdpplt2xcIIxPdFPDpSrc-yZjz7hLP5kxs_giiY134TUahMzzzeswLBK-9BbFt6_zYw5JK4QIas6AoCfvJJmz9y5VLopvsGzMWG6M8KflLfEfcVX3tf78iA_GMS1LacIULnzCKn_8F7Ql6np3GTkclhBRNQREn3DD6SYB3-zSPMUmUG4OIJ7',
+              'Content-Type': 'application/json'
+            }
+          });
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
               const similarArtists = data.artists.items.filter(item => item.data.profile.name.toLowerCase() !== searchTerm.toLowerCase());
               console.log(similarArtists);
               // Call function to display similar artists
@@ -112,36 +121,149 @@
           resultsDiv.innerHTML = "<p>An error occurred. Please try again later.</p>";
         });
     });
-    function createSimilarArtistElement(artist) {
-      const similarArtistElement = document.createElement('div');
-      similarArtistElement.classList.add('similar-artist');
-      const imageUrl = artist.data.visuals?.avatarImage?.sources?.[0]?.url; // use optional chaining to check if objects and properties exist
-      if (imageUrl) {
-        const imageElement = document.createElement('img');
-        imageElement.src = imageUrl;
-        imageElement.alt = artist.data.profile.name;
-        similarArtistElement.appendChild(imageElement);
+         
+
+    });
+    //This will first search for the artist using the searchTerm, then extract the id of the first artist in the search results, and then make a request to get the related artists for that id.
+
+
+
+
+  </script> -->
+  <script>
+    async function renderHeaderFooter() {
+      const headerTemplate = await fetch("/src/partials/header.html").then(response => response.text());
+      const footerTemplate = await fetch("/src/partials/footer.html").then(response => response.text());
+      document.querySelector("#main-header").innerHTML = headerTemplate;
+      document.querySelector("#main-footer").innerHTML = footerTemplate;
+    }
+    renderHeaderFooter();
+
+    const form = document.querySelector("form");
+    const searchInput = document.getElementById("search-input");
+    const resultsDiv = document.getElementById("results");
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "3e92ace5fbmsh6053770406c5582p1f94c5jsnf9a575f449b9",
+        "X-RapidAPI-Host": "spotify23.p.rapidapi.com"
       }
-      const nameElement = document.createElement('p');
-      nameElement.textContent = artist.data.profile.name;
-      similarArtistElement.appendChild(nameElement);
-      return similarArtistElement;
-    }
+    };
+    const searchButton = document.getElementById("searchButton");
+    const resultsContainer = document.getElementById("results");
+
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const searchTerm = searchInput.value;
+      let artistId; // declare variable to store artist ID
+
+      fetch(`https://spotify23.p.rapidapi.com/search/?q=${searchTerm}&type=multi&offset=0&limit=20&numberOfTopResults=5`, options)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          const artistName = data.artists.items[0].data.profile.name;
+          const imageUrl = data.artists.items[0].data.visuals.avatarImage.sources[1].url;
+          const uri = data.artists.items[0].data.uri;
+          artistId = uri.replace("spotify:artist:", ""); // store artist ID in variable
+          console.log(artistId);
 
 
 
-    function displaySimilarArtists(similarArtists) {
-      const similarArtistsList = document.createElement("ul");
-      similarArtistsList.classList.add("similar-artists-list");
+          const artistNameElement = document.createElement("p");
+          artistNameElement.innerText = `Artist Name: ${artistName}`;
+          artistNameElement.classList.add("artist-name");
 
-      similarArtists.forEach(artist => {
-        const similarArtistElement = createSimilarArtistElement(artist);
-        similarArtistsList.appendChild(similarArtistElement);
-      });
+          const artistImageElement = document.createElement("img");
+          artistImageElement.src = imageUrl;
+          artistImageElement.classList.add("artist-image");
 
-      resultsDiv.innerHTML = "";
-      resultsDiv.appendChild(similarArtistsList);
-    }
+          // Add the artist name and image elements to the results div
+          resultsDiv.innerHTML = "";
+          resultsDiv.appendChild(artistNameElement);
+          resultsDiv.appendChild(artistImageElement);
+
+          // Add the radio buttons and button to the results div
+          const radioForm = document.createElement("form");
+          radioForm.innerHTML = `Is this the right artist?
+          <div>
+            <label for="yes">Yes</label>
+            <input type="radio" name="correct-artist" value="yes" id="yes">
+          </div>
+          <div>
+            <label for="no">No</label>
+            <input type="radio" name="correct-artist" value="no" id="no">
+          </div>`;
+          radioForm.classList.add("radio-form");
+
+          const button = document.createElement("button");
+          button.innerText = "Find similar music";
+          button.classList.add("search-button");
+
+          resultsDiv.appendChild(radioForm);
+          resultsDiv.appendChild(button);
+
+          resultsContainer.classList.remove("no-border");
+
+
+
+          // Add event listener to button to search for similar music
+          button.addEventListener("click", () => {
+            const correctArtist = document.querySelector('input[name="correct-artist"]:checked').value;
+            if (correctArtist === "yes") {
+              // Use artistId from first fetch in second fetch
+              fetch(`https://spotify23.p.rapidapi.com/artist_related/?id=${artistId}`, options)
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                  const name = data.artists[0].name;
+                  console.log(name);
+                  const similarArtists = data.artists.filter(item => item.name.toLowerCase() !== searchTerm.toLowerCase());
+                  displaySimilarArtists(similarArtists);
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error);
+                  // Display error message to user
+                  resultsDiv.innerHTML = "Error fetching data. Please try again later.";
+                  resultsDiv.classList.add("no-border");
+                });
+              function createSimilarArtistElement(artist) {
+                const similarArtistElement = document.createElement('div');
+                similarArtistElement.classList.add('similar-artist');
+                const imageUrl = artist.images[2].url;
+                if (imageUrl) {
+                  const imageElement = document.createElement('img');
+                  imageElement.src = imageUrl;
+                  imageElement.alt = artist.name;
+                  similarArtistElement.appendChild(imageElement);
+                }
+                const nameElement = document.createElement('p');
+                nameElement.textContent = artist.name;
+                similarArtistElement.appendChild(nameElement);
+                return similarArtistElement;
+              }
+              function displaySimilarArtists(similarArtists) {
+                const similarArtistsList = document.createElement("ul");
+                similarArtistsList.classList.add("similar-artists-list");
+
+                similarArtists.forEach(artist => {
+                  const similarArtistElement = createSimilarArtistElement(artist);
+                  similarArtistsList.appendChild(similarArtistElement);
+                });
+
+                resultsDiv.innerHTML = "";
+                resultsDiv.appendChild(similarArtistsList);
+              }
+
+            }
+          })
+        })
+    })
+
+
+
+
+
 
 
 
