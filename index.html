@@ -230,7 +230,7 @@
               function createSimilarArtistElement(artist) {
                 const similarArtistElement = document.createElement('div');
                 similarArtistElement.classList.add('similar-artist');
-                const imageUrl = artist.images[2].url;
+                const imageUrl = artist.images[0].url;
                 if (imageUrl) {
                   const imageElement = document.createElement('img');
                   imageElement.src = imageUrl;
