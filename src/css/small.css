@@ -25,10 +25,23 @@ h3 {
     width: 200px;
 }
 
+#search-input {
+    padding-left: 8px;
+}
+
 searchType {
     font-size: 30px;
 }
 
+.no-border {
+    border: none;
+}
+
+#results {
+
+    margin: auto;
+    text-align: center;
+}
 
 .results-container {
     background-color: white;
@@ -181,4 +194,21 @@ ul {
 .artist-image {
     height: 160px;
     width: 160px;
+}
+
+button .page-button {
+    background-color: #fff;
+    border: 1px solid green;
+    padding: 10px 20px;
+    margin: 5px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 66px;
+    
+}
+
+.active {
+    background-color: green;
+    color: #fff;
 }
