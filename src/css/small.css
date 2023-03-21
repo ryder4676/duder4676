@@ -196,7 +196,13 @@ ul {
     width: 160px;
 }
 
-button .page-button {
+.page-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-buttons a {
     background-color: #fff;
     border: 1px solid green;
     padding: 10px 20px;
@@ -204,11 +210,10 @@ button .page-button {
     text-decoration: none;
     color: #000;
     font-weight: bold;
-    font-size: 66px;
-    
+    font-size: 16px;
 }
 
-.active {
+.page-buttons a.active {
     background-color: green;
     color: #fff;
 }
