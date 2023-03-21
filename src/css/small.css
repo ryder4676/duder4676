@@ -213,7 +213,7 @@ ul {
     font-size: 16px;
 }
 
-.page-buttons a.active {
+.active {
     background-color: green;
     color: #fff;
 }
