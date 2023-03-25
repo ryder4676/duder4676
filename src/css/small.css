@@ -17,7 +17,7 @@ h3 {
 
 #form {
     width: fit-content;
-    height: 80px;
+
     padding: 20px;
     background-color: black;
     border-radius: 10px;
@@ -36,19 +36,19 @@ h3 {
 }
 
 label[for="search-input"] {
-    background-color: lightgrey;
-    color: #000;
-
-    /* adjust top and bottom padding */
+    background-color: green;
+    color: white;
     height: 46px;
-    /* set the same height as the input and button */
     display: flex;
-    /* align items vertically */
     align-items: center;
-    /* center items vertically */
+    border-radius: 10px 10px 0px 0px;
+    padding-left: 10px;
 }
 
-
+.search-button {
+    border-radius: 10px;
+    margin-top: 10px;
+}
 
 #searchButton,
 #search-input,
@@ -56,11 +56,17 @@ label[for="search-input"] {
     height: 50px;
     font-size: 24px;
     border: none;
+    background-color: white;
 
+}
+
+#searchButton {
+    border-radius: 0px 0px 10px 0px;
 }
 
 input[type="text" i] {
     padding: 0px;
+    border-radius: 0px 0px 0px 10px;
 }
 
 searchType {
@@ -226,6 +232,7 @@ ul {
 .artist-image {
     height: 160px;
     width: 160px;
+    margin-bottom: 10px;
 }
 
 .page-buttons {
@@ -258,4 +265,15 @@ ul {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+#artist-info {
+    width: fit-content;
+    /* background-color: #f8f8f8; */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border: #fff solid 3px;
+    margin: auto;
 }

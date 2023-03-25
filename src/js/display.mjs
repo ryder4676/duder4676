@@ -23,7 +23,6 @@ export function initArtistSearch(form, searchInput, resultsDiv, resultsContainer
                 artistId = uri.replace("spotify:artist:", ""); // Store artist ID in variable
                 console.log(artistId);
 
-
                 // Create new HTML elements for the artist name and image, and add them to the results div
                 const artistNameElement = document.createElement("p");
                 artistNameElement.innerText = `Artist Name: ${artistName}`;
@@ -33,29 +32,33 @@ export function initArtistSearch(form, searchInput, resultsDiv, resultsContainer
                 artistImageElement.src = imageUrl;
                 artistImageElement.classList.add("artist-image");
 
-                resultsDiv.innerHTML = "";
-                resultsDiv.appendChild(artistNameElement);
-                resultsDiv.appendChild(artistImageElement);
-
                 // Create new HTML elements for the radio buttons and button, and add them to the results div
                 const radioForm = document.createElement("form");
                 radioForm.innerHTML = `Is this the right artist?
-            <div>
-              <label for="yes">Yes</label>
-              <input type="radio" name="correct-artist" value="yes" id="yes">
-            </div>
-            <div>
-              <label for="no">No</label>
-              <input type="radio" name="correct-artist" value="no" id="no">
-            </div>`;
+              <div>
+                <label for="yes">Yes</label>
+                <input type="radio" name="correct-artist" value="yes" id="yes">
+              </div>
+              <div>
+                <label for="no">No</label>
+                <input type="radio" name="correct-artist" value="no" id="no">
+              </div>`;
                 radioForm.classList.add("radio-form");
 
                 const button = document.createElement("button");
                 button.innerText = "Find similar music";
                 button.classList.add("search-button");
 
-                resultsDiv.appendChild(radioForm);
-                resultsDiv.appendChild(button);
+                // Wrap artist name, image, radio buttons, and search button in a new div
+                const artistInfoDiv = document.createElement("div");
+                artistInfoDiv.id = "artist-info";
+                artistInfoDiv.appendChild(artistNameElement);
+                artistInfoDiv.appendChild(artistImageElement);
+                artistInfoDiv.appendChild(radioForm);
+                artistInfoDiv.appendChild(button);
+
+                resultsDiv.innerHTML = "";
+                resultsDiv.appendChild(artistInfoDiv);
 
                 // Remove the "no-border" class from the results container to reveal the results div
                 resultsContainer.classList.remove("no-border");
@@ -63,12 +66,9 @@ export function initArtistSearch(form, searchInput, resultsDiv, resultsContainer
                 if (typeof onButtonCreated === 'function') {
                     onButtonCreated(button, artistId, searchTerm);
                 }
-
-
-
             });
-
     });
+
 };
 
 
@@ -136,15 +136,14 @@ export function initSimilarArtists(button, resultsDiv, artistId, searchTerm) {
                     }
                 });
                 similarArtistsList.style.display = "block";
-                // const resultsDivPosition = resultsDiv.getBoundingClientRect();
 
-                // element.style.position = "static";
-                // element.style.top = `${resultsDivPosition.top}px`;
-                // element.style.left = `${resultsDivPosition.left}px`;
+                const pageButtons = document.querySelector(".page-buttons");
+                if (pageButtons) {
+                    pageButtons.style.display = "none";
+                }
+
                 element.style.zIndex = "100";
                 element.style.transition = "all 3s";
-                const pageButtons = document.querySelector(".page-buttons");
-                pageButtons.style.display = "none";
                 // Create a back button
                 const backButton = document.createElement("button");
                 backButton.textContent = "Go back";
@@ -170,16 +169,16 @@ export function initSimilarArtists(button, resultsDiv, artistId, searchTerm) {
                         child.style.display = "";
                     });
 
+                    if (pageButtons) {
+                        pageButtons.style.display = "block";
+                    }
+
                     // Remove the back button
                     backButton.remove();
-
-
                 });
 
                 document.body.appendChild(backButton);
             }
-
-
 
             function fetchRelatedArtistTracks(artistId) {
 
