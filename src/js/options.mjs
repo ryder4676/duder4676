@@ -7,3 +7,4 @@ export const options = {
         "X-RapidAPI-Host": "spotify23.p.rapidapi.com"
     }
 };
+

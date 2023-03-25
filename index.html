@@ -2,12 +2,11 @@
 <html lang="en">
 
 <head>
-  <title>Music Discovery</title>
+  <title>SoundQuest: Discover Your Next Favorite Artist</title>
   <link rel="stylesheet" href="src/css/small.css">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Russo+One&display=swap" rel="stylesheet">
   <script src="src/js/app.mjs" type="module"></script>
-  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-    img-src https://*; child-src 'none'; script-src 'self'"> -->
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
 
 </head>
@@ -21,13 +20,20 @@
       <button type="submit" id="searchButton">Search</button>
     </form>
     <div id="results" class="no-border">
+      <div id="player"></div>
+
 
     </div>
   </main>
   <footer id="main-footer"></footer>
 
 
-  <!-- <script>
+
+</body>
+
+</html>
+
+<!-- <script>
     async function renderHeaderFooter() {
       const headerTemplate = await fetch("/src/partials/header.html").then(response => response.text());
       const footerTemplate = await fetch("/src/partials/footer.html").then(response => response.text());
@@ -236,6 +242,3 @@
         })
     })
   </script> -->
-</body>
-
-</html>

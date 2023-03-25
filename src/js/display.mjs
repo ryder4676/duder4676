@@ -1,5 +1,7 @@
 import { paginate } from "./pagination.mjs";
 import { options } from "./options.mjs";
+// import { artistsInfo } from "./artistInfo.mjs";
+import { displayTracks } from "./mediaplayer.mjs";
 
 export function initArtistSearch(form, searchInput, resultsDiv, resultsContainer, onButtonCreated) {
     // This event listener listens for a form submission and prevents the default form behavior
@@ -76,8 +78,9 @@ export function initSimilarArtists(button, resultsDiv, artistId, searchTerm) {
     button.addEventListener("click", () => {
         const correctArtist = document.querySelector('input[name="correct-artist"]:checked').value;
         if (correctArtist === "yes") {
+            const limit = 40;
             // Use artistId from first fetch in second fetch
-            fetch(`https://spotify23.p.rapidapi.com/artist_related/?id=${artistId}&type=&limit=40`, options)
+            fetch(`https://spotify23.p.rapidapi.com/artist_related/?id=${artistId}&limit=${limit}`, options)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -111,9 +114,99 @@ export function initSimilarArtists(button, resultsDiv, artistId, searchTerm) {
                 const nameElement = document.createElement('p');
                 nameElement.textContent = artist.name;
                 similarArtistElement.appendChild(nameElement);
+
+                // Add click event listener to the similarArtistElement
+                similarArtistElement.addEventListener("click", () => {
+                    moveToTopLeft(similarArtistElement);
+                    fetchRelatedArtistTracks(artist.id);
+                    artistInfo(artist); // Call the artistInfo function and pass the artist object
+                });
+
                 // Return the div element
                 return similarArtistElement;
             }
+
+            function moveToTopLeft(element) {
+                const resultsDiv = document.getElementById("results");
+                const similarArtistsList = document.querySelector(".similar-artists-list");
+
+                similarArtistsList.childNodes.forEach(child => {
+                    if (child !== element) {
+                        child.style.display = "none";
+                    }
+                });
+                similarArtistsList.style.display = "block";
+                // const resultsDivPosition = resultsDiv.getBoundingClientRect();
+
+                // element.style.position = "static";
+                // element.style.top = `${resultsDivPosition.top}px`;
+                // element.style.left = `${resultsDivPosition.left}px`;
+                element.style.zIndex = "100";
+                element.style.transition = "all 3s";
+                const pageButtons = document.querySelector(".page-buttons");
+                pageButtons.style.display = "none";
+                // Create a back button
+                const backButton = document.createElement("button");
+                backButton.textContent = "Go back";
+                backButton.style.position = "absolute";
+                backButton.style.left = "0"; // align to the left
+                backButton.style.bottom = "20px";
+                backButton.style.zIndex = "101";
+                backButton.style.transform = "rotate(-90deg)";
+
+                backButton.style.writingMode = "vertical-rl"; // orient text vertically
+
+                // Add an event listener for the back button
+                backButton.addEventListener("click", () => {
+                    element.style.position = "";
+                    element.style.top = "";
+                    element.style.left = "";
+                    element.style.zIndex = "";
+                    element.style.transition = "";
+                    similarArtistsList.style.display = "flex";
+
+                    // Show other artists
+                    similarArtistsList.childNodes.forEach(child => {
+                        child.style.display = "";
+                    });
+
+                    // Remove the back button
+                    backButton.remove();
+
+
+                });
+
+                document.body.appendChild(backButton);
+            }
+
+
+
+            function fetchRelatedArtistTracks(artistId) {
+
+                fetch(`https://spotify23.p.rapidapi.com/tracks/?ids=${artistId}&country=US`, options)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const tracks = data.tracks.slice(0, 3); // Get the first 3 tracks
+                        displayTracks(tracks);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching tracks:", error);
+                    });
+            }
+            // function displayTracks(tracks) {
+            //     const tracksList = document.createElement("ul");
+            //     tracksList.classList.add("tracks-list");
+
+            //     tracks.forEach(track => {
+            //         const trackElement = document.createElement("li");
+            //         trackElement.textContent = track.name;
+            //         tracksList.appendChild(trackElement);
+            //     });
+
+            //     const resultsDiv = document.getElementById("resultsDiv");
+            //     resultsDiv.appendChild(tracksList);
+            // }
 
 
             // Modified displaySimilarArtists function

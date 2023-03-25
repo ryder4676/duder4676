@@ -4,6 +4,10 @@ body {
     color: white;
 }
 
+main {
+    margin-bottom: 20px;
+}
+
 h1,
 h2,
 h3 {
@@ -12,7 +16,7 @@ h3 {
 }
 
 #form {
-    width: 580px;
+    width: fit-content;
     height: 80px;
     padding: 20px;
     background-color: black;
@@ -23,10 +27,40 @@ h3 {
 
 #searchInput {
     width: 200px;
+    vertical-align: middle;
 }
+
 
 #search-input {
     padding-left: 8px;
+}
+
+label[for="search-input"] {
+    background-color: lightgrey;
+    color: #000;
+
+    /* adjust top and bottom padding */
+    height: 46px;
+    /* set the same height as the input and button */
+    display: flex;
+    /* align items vertically */
+    align-items: center;
+    /* center items vertically */
+}
+
+
+
+#searchButton,
+#search-input,
+#search-input label {
+    height: 50px;
+    font-size: 24px;
+    border: none;
+
+}
+
+input[type="text" i] {
+    padding: 0px;
 }
 
 searchType {
@@ -80,13 +114,11 @@ searchType {
 }
 
 #main-header img {
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 350px;
     margin: 0 auto;
     display: block;
-
 }
-
 
 #main-footer {
     background-color: #333;
@@ -126,8 +158,8 @@ label,
 select,
 input,
 button {
-    height: 40px;
-    font-size: 20px;
+
+    font-size: 26px;
 }
 
 ul {
@@ -199,7 +231,7 @@ ul {
 .page-buttons {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px 0px 30px;
 }
 
 .page-buttons a {
@@ -216,4 +248,14 @@ ul {
 .active {
     background-color: green;
     color: #fff;
+}
+
+#search-container {
+    position: relative;
+}
+
+#back-button {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
